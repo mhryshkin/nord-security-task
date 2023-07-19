@@ -9,7 +9,7 @@ const instance = axios.create({
 const token = loadAuthToken();
 if (token) {
   instance.interceptors.request.use((request) => {
-    request.headers.Authorization = token.access_token;
+    request.headers.Authorization = `Bearer ${token}`;
     return request;
   });
 }

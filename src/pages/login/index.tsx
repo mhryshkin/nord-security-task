@@ -1,8 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { required } from '../../utils/validations';
-import { useMutation } from 'react-query';
 import authApi from '../../api/authApi';
 import { FormValues } from '../../types/formValues';
 import Logo from '../../assets/nord-security.svg';
