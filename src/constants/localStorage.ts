@@ -1,3 +1,3 @@
 export const Paths = {
-  TOKEN: 'auth',
+  TOKEN: 'tesonet',
 };
