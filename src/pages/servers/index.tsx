@@ -1,18 +1,16 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useMutation } from 'react-query';
-// import { useNavigate } from 'react-router-dom';
 
-// import { useAuthContext } from '../../context/AuthContext';
 import serversApi from '../../api/serversApi';
 import Spinner from '../../assets/spinner.svg';
+import Table from '../../components/table';
+import { COLUMNS } from '../../constants/tableConfig';
 
 const ServersPage = () => {
   const {
     mutate: loadServers,
-    isSuccess,
     isLoading,
     data,
-    ...other
   } = useMutation({
     mutationFn: () => {
       return serversApi.getAll();
@@ -23,36 +21,13 @@ const ServersPage = () => {
     loadServers();
   }, []);
 
-  console.log('servers', { isSuccess, isLoading, data, other });
-
   return (
-    <div className="relative block w-full rounded-lg bg-white shadow-lg">
-      Servers Page
-      {isLoading ? (
+    <div className="relative block w-full rounded-lg p-10 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
+      <h1 className="mb-4 text-center text-xl font-semibold">Servers</h1>
+      {isLoading || !data ? (
         <img className="mx-auto" src={Spinner} alt="spinner" />
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Wrestler</th>
-              <th>Signature Move(s)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>"Stone Cold" Steve Austin</td>
-              <td>Stone Cold Stunner, Lou Thesz Press</td>
-            </tr>
-            <tr>
-              <td>Bret "The Hitman" Hart</td>
-              <td>The Sharpshooter</td>
-            </tr>
-            <tr>
-              <td>Razor Ramon</td>
-              <td>Razor's Edge, Fallaway Slam</td>
-            </tr>
-          </tbody>
-        </table>
+        <Table data={data} columns={COLUMNS} />
       )}
     </div>
   );

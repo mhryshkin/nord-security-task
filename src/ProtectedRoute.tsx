@@ -38,11 +38,12 @@ const ProtectedRoute: FC<Props> = ({ children }) => {
             <img className="w-50" src={Logo} alt="logo" />
           </div>
           <button onClick={logout}>
-            <img className="w-6 h-6" src={Logout} alt="logout" />
+            <img className="w-6 h-6 hover:opacity-70" src={Logout} alt="logout" />
           </button>
         </div>
       </div>
-      <div className="p-10">{children}</div>
+
+      <div className="p-10 max-w-[1080px] mx-auto">{children}</div>
     </div>
   );
 };
