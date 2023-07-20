@@ -14,8 +14,8 @@ import { loadAuthToken, saveAuthToken } from '../utils/localStorage';
 export type ContextType = {
   isLoaded: boolean;
   isLoading: boolean;
-  token?: string;
-  login: (token: string) => void;
+  token: string | null;
+  updateToken: (token: string | null) => void;
 };
 
 type ProviderProps = {
@@ -25,14 +25,14 @@ type ProviderProps = {
 const AuthContext = createContext<ContextType>({
   isLoaded: false,
   isLoading: true,
-  token: undefined,
-  login: () => {},
+  token: null,
+  updateToken: () => {},
 });
 
 export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [token, setToken] = useState<string | undefined>();
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const loadedToken = loadAuthToken();
@@ -43,7 +43,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     setIsLoaded(true);
   }, [isLoaded, isLoading]);
 
-  const login = useCallback((token: string) => {
+  const updateToken = useCallback((token: string | null) => {
     setToken(token);
     saveAuthToken(token);
   }, []);
@@ -53,9 +53,9 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
       isLoaded,
       isLoading,
       token,
-      login,
+      updateToken,
     }),
-    [isLoaded, isLoading, token, login]
+    [isLoaded, isLoading, token, updateToken]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

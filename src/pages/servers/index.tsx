@@ -1,19 +1,18 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
-import { useAuthContext } from '../../context/AuthContext';
+// import { useAuthContext } from '../../context/AuthContext';
 import serversApi from '../../api/serversApi';
+import Spinner from '../../assets/spinner.svg';
 
 const ServersPage = () => {
-  const { token, isLoaded, isLoading } = useAuthContext();
-  const navigate = useNavigate();
-
   const {
     mutate: loadServers,
     isSuccess,
-    isLoading: isServerListLoading,
+    isLoading,
     data,
+    ...other
   } = useMutation({
     mutationFn: () => {
       return serversApi.getAll();
@@ -24,18 +23,39 @@ const ServersPage = () => {
     loadServers();
   }, []);
 
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
+  console.log('servers', { isSuccess, isLoading, data, other });
 
-  if (isLoaded && !token) {
-    navigate('/login');
-    return null;
-  }
-
-  console.log('servers', { isSuccess, isServerListLoading, data });
-
-  return <p>Servers Page</p>;
+  return (
+    <div className="relative block w-full rounded-lg bg-white shadow-lg">
+      Servers Page
+      {isLoading ? (
+        <img className="mx-auto" src={Spinner} alt="spinner" />
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Wrestler</th>
+              <th>Signature Move(s)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>"Stone Cold" Steve Austin</td>
+              <td>Stone Cold Stunner, Lou Thesz Press</td>
+            </tr>
+            <tr>
+              <td>Bret "The Hitman" Hart</td>
+              <td>The Sharpshooter</td>
+            </tr>
+            <tr>
+              <td>Razor Ramon</td>
+              <td>Razor's Edge, Fallaway Slam</td>
+            </tr>
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
 };
 
 export default ServersPage;

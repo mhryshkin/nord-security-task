@@ -7,6 +7,8 @@ import { AuthProvider } from './context/AuthContext';
 import RootPage from './pages/root';
 import LoginPage from './pages/login';
 import ServersPage from './pages/servers';
+import ProtectedRoute from './ProtectedRoute';
+import Layout from './components/Layout';
 
 const queryClient = new QueryClient();
 
@@ -15,12 +17,21 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<RootPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/servers" element={<ServersPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<RootPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/servers"
+                element={
+                  <ProtectedRoute>
+                    <ServersPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Layout>
         </BrowserRouter>
       </AuthProvider>
     </QueryClientProvider>
