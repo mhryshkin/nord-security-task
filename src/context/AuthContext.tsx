@@ -22,7 +22,7 @@ type ProviderProps = {
   children: ReactNode | Array<ReactNode>;
 };
 
-const AuthContext = createContext<ContextType>({
+export const AuthContext = createContext<ContextType>({
   isLoaded: false,
   isLoading: true,
   token: null,
@@ -41,7 +41,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     }
     setIsLoading(false);
     setIsLoaded(true);
-  }, [isLoaded, isLoading]);
+  }, []);
 
   const updateToken = useCallback((token: string | null) => {
     setToken(token);

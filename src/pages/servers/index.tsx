@@ -22,7 +22,7 @@ const ServersPage = () => {
   }, []);
 
   return (
-    <div className="relative block w-full rounded-lg p-10 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
+    <div className="relative block w-full rounded-lg p-3 md:p-10 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
       <h1 className="mb-4 text-center text-xl font-semibold">Servers</h1>
       {isLoading || !data ? (
         <img className="mx-auto" src={Spinner} alt="spinner" />

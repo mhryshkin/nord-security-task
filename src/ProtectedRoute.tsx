@@ -43,7 +43,7 @@ const ProtectedRoute: FC<Props> = ({ children }) => {
         </div>
       </div>
 
-      <div className="p-10 max-w-[1080px] mx-auto">{children}</div>
+      <div className="p-3 md:p-10 max-w-[1080px] mx-auto">{children}</div>
     </div>
   );
 };
