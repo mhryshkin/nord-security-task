@@ -10,11 +10,11 @@ function MockConsumer() {
   return <div>{token || 'No Token'}</div>;
 }
 
-describe('<AuthProvider />', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
+describe('<AuthProvider />', () => {
   it('loads the auth token from local storage on mount', async () => {
     const mockToken = 'test-token';
     (loadAuthToken as jest.Mock).mockReturnValueOnce(mockToken);

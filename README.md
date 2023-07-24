@@ -9,7 +9,7 @@ This application provides functionality for users to log in and log out, as well
 2. **Setting up Environment Variables**: Create a `.env` file at the root of your project and include the `VITE_API_URL` variable. Set it to the appropriate API endpoint.
 
    ```
-   VITE_API_URL=<Your API endpoint here>
+   VITE_API_URL=<Api base url>
    ```
 
 3. **Running the Application**: Use the command `npm run dev` to run the application in development mode.
@@ -20,7 +20,9 @@ This application provides functionality for users to log in and log out, as well
 
 6. **Linting**: To lint your project using eslint, run `npm run lint`.
 
-7. **Testing the Application**: Run `npm run test` to execute the tests.
+7. **Executing Tests**: Run `npm run test` to execute the tests.
+
+8. **Generating Test Coverage**: Run `npm run test:coverage` to generate a test coverage report.
 
 ## Potential Improvements/Things to Consider
 

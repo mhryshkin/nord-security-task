@@ -10,6 +10,10 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('<RootPage />', () => {
   it('redirects to /login when token is not loaded', () => {
     render(

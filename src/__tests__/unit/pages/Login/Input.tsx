@@ -3,6 +3,10 @@ import { Field, Form, Formik } from 'formik';
 import Input from '../../../../pages/login/Input';
 import { required } from '../../../../utils/validations';
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('<Input />', () => {
   it('renders without crashing', () => {
     render(

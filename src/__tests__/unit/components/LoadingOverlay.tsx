@@ -1,6 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import LoadingOverlay from '../../../components/LoadingOverlay';
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('<LoadingOverlay />', () => {
   it('renders spinner', () => {
     render(<LoadingOverlay />);

@@ -4,11 +4,11 @@ import Layout from '../../../components/Layout';
 
 jest.mock('../../../context/AuthContext');
 
-describe('<Layout />', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
+describe('<Layout />', () => {
   it('renders spinner when isLoading is true', () => {
     (useAuthContext as jest.Mock).mockReturnValue({ isLoading: true });
 

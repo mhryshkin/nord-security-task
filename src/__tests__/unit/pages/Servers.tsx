@@ -17,8 +17,12 @@ const server = setupServer(
 );
 
 beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
+
+afterEach(() => {
+  jest.clearAllMocks();
+  server.resetHandlers();
+});
 
 describe('<ServersPage />', () => {
   const queryClient = new QueryClient();

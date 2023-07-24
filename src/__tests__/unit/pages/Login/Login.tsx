@@ -1,41 +1,78 @@
-import { render, screen } from '@testing-library/react';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import userEvent from '@testing-library/user-event';
 
 import LoginPage from '../../../../pages/login';
-import { AuthProvider } from '../../../../context/AuthContext';
 
-jest.mock('../../../../api/authApi');
+jest.mock('../../../../context/AuthContext');
 
-const server = setupServer(
-  rest.post('/tokens', (_req, res, ctx) => {
-    return res(ctx.json({ token: 'fake_token' }));
-  })
-);
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+const mutationMock = jest.fn();
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useMutation: () => ({
+    mutate: mutationMock,
+    isSuccess: false,
+    isLoading: false,
+    isError: false,
+    error: null,
+  }),
+}));
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useNavigate: jest.fn(),
+  useNavigate: () => jest.fn(),
 }));
 
 describe('LoginPage', () => {
-  it('initializes with the correct initialValues', async () => {
-    const queryClient = new QueryClient();
+  const navigate = require('react-router-dom').useNavigate();
+  const mockUseAuthContext = require('../../../../context/AuthContext').useAuthContext;
+  const authContextValue = {
+    token: null,
+    isLoaded: true,
+    updateToken: jest.fn(),
+  };
 
+  beforeEach(() => {
+    jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(navigate);
+    mockUseAuthContext.mockReturnValue(authContextValue);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders the login form', () => {
     render(
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <LoginPage />
-        </AuthProvider>
+      <QueryClientProvider client={new QueryClient()}>
+        <LoginPage />
       </QueryClientProvider>
     );
 
-    expect(screen.getByLabelText(/username/i)).toHaveValue('');
-    expect(screen.getByLabelText(/password/i)).toHaveValue('');
+    expect(screen.getByLabelText('Username')).toBeInTheDocument();
+    expect(screen.getByLabelText('Password')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
+  });
+
+  it('calls loginMutation on form submit', async () => {
+    render(
+      <QueryClientProvider client={new QueryClient()}>
+        <LoginPage />
+      </QueryClientProvider>
+    );
+
+    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'test_username' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'test_password' } });
+
+    const submitButton = screen.getByRole('button', { name: /log in/i });
+    await waitFor(() => expect(submitButton).toBeEnabled());
+
+    userEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(mutationMock).toHaveBeenCalledWith(
+        { username: 'test_username', password: 'test_password' },
+        expect.objectContaining({ onSuccess: expect.any(Function) })
+      );
+    });
   });
 });

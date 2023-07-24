@@ -2,6 +2,10 @@ import { fireEvent, render, within } from '@testing-library/react';
 import Table from '../../../components/table';
 import { ColumnKeys } from '../../../types/servers';
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('<Table />', () => {
   const mockData = [
     { name: 'record1', distance: 20 },
