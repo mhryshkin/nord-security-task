@@ -24,6 +24,11 @@ This application provides functionality for users to log in and log out, as well
 
 8. **Generating Test Coverage**: Run `npm run test:coverage` to generate a test coverage report.
 
+## Deployment
+
+The application is hosted on AWS and served globally through CloudFront. You can access the live application at this URL: [https://d3hh6l3s68qbsn.cloudfront.net](https://d3hh6l3s68qbsn.cloudfront.net)
+A 'Deploy Production' GitHub workflow is available for automatic deployment.
+
 ## Potential Improvements/Things to Consider
 
 1. **Consistent Codebase**: Implement `eslint` and `prettier` to maintain a consistent codebase, particularly when multiple developers are contributing to the repository. Including a linting check in the CI/CD process will assist in preserving code quality.
